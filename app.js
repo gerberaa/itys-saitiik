@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const flash = require('connect-flash');
 const path = require('path');
@@ -12,7 +13,8 @@ require('./config/passport')(passport);
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/glass-ui')
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/glass-ui';
+mongoose.connect(mongoUri)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('MongoDB connection error:', err));
 
@@ -21,13 +23,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Session configuration
+// Session configuration (MongoDB store)
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your-super-secret-key-change-this-in-production',
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: mongoUri,
+        collectionName: 'sessions',
+        ttl: 14 * 24 * 60 * 60 // 14 days
+    }),
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+        maxAge: 14 * 24 * 60 * 60 * 1000 // 14 days
     }
 }));
 

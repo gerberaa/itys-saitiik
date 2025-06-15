@@ -20,46 +20,38 @@
         }
 
         .profile-container {
+            width: 100%;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         .profile-header {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 40px;
-            margin-bottom: 30px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
         }
 
         .profile-avatar {
-            width: 150px;
-            height: 150px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            margin: 0 auto 20px;
-            background: rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            color: rgba(255, 255, 255, 0.8);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            margin-right: 1.5rem;
+            border: 2px solid rgba(255,255,255,0.2);
         }
 
-        .profile-name {
-            font-size: 32px;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #fff, #ccc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .profile-info h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
         }
 
-        .profile-email {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 18px;
+        .profile-info p {
+            color: #ccc;
         }
 
         .profile-content {
@@ -178,6 +170,99 @@
             font-size: 26px;
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
         }
+
+        .profile-posts {
+            margin-top: 2rem;
+        }
+
+        .profile-posts h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .post-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-desc {
+            color: #ccc;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-meta {
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .file-upload input[type="file"] {
+            display: none;
+        }
+        .file-upload label {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .file-upload label:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .upload-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .upload-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .settings-btn {
+            display: inline-block;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        .settings-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .settings-btn i {
+            font-size: 1.5rem;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -185,63 +270,47 @@
     <div class="profile-container">
         <div class="profile-header">
             <div class="profile-avatar">
-                <i class="fas fa-user"></i>
+                <img src="<%= user.avatar || '/images/default-avatar.png' %>" alt="Avatar" style="width:100%;height:100%;border-radius:50%;">
             </div>
-            <h1 class="profile-name"><%= user.username %></h1>
-            <p class="profile-email"><%= user.email %></p>
+            <div class="profile-info">
+                <h1><%= user.username %></h1>
+                <p><%= user.email %></p>
+            </div>
+            <a href="/profile/settings" class="settings-btn"><i class="fas fa-cog"></i></a>
         </div>
-
-        <div class="profile-content">
-            <% if (success_msg && success_msg.length > 0) { %>
-                <div class="alert alert-success">
-                    <%= success_msg %>
-                </div>
+        <form action="/profile/avatar" method="post" enctype="multipart/form-data" class="avatar-form">
+            <div class="file-upload">
+                <input type="file" name="avatar" accept="image/*" required id="avatar-upload">
+                <label for="avatar-upload">Choose Avatar</label>
+            </div>
+            <button type="submit" class="upload-btn">Upload Avatar</button>
+        </form>
+        <div class="profile-posts">
+            <h2>My Posts</h2>
+            <% if (posts.length > 0) { %>
+                <% posts.forEach(function(post) { %>
+                    <div class="post-item">
+                        <a href="/post/<%= post._id %>" style="display:block;text-decoration:none;color:inherit;">
+                            <img src="<%= post.image %>" alt="<%= post.title %>" class="post-image">
+                            <div class="post-title"><%= post.title %></div>
+                            <div class="post-desc"><%= post.description %></div>
+                            <div class="post-meta">Posted on <%= post.createdAt.toLocaleString() %></div>
+                        </a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>You haven't posted anything yet.</p>
             <% } %>
-
-            <% if (error_msg && error_msg.length > 0) { %>
-                <div class="alert alert-error">
-                    <%= error_msg %>
-                </div>
-            <% } %>
-
-            <form action="/profile/update" method="POST">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" value="<%= user.username %>" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="<%= user.email %>" required>
-                </div>
-                <div class="form-group">
-                    <label for="currentPassword">Current Password</label>
-                    <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password">
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">New Password</label>
-                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password">
-                </div>
-                <button type="submit" class="submit-btn">Update Profile</button>
-            </form>
         </div>
     </div>
 
     <div class="dock">
-        <a href="/" class="dock-item">
-            <i class="fas fa-home"></i>
-        </a>
-        <a href="/search" class="dock-item">
-            <i class="fas fa-search"></i>
-        </a>
-        <a href="/gallery" class="dock-item">
-            <i class="fas fa-images"></i>
-        </a>
-        <a href="/top" class="dock-item">
-            <i class="fas fa-trophy"></i>
-        </a>
-        <a href="/profile" class="dock-item">
-            <i class="fas fa-user"></i>
-        </a>
+        <a href="/" class="dock-item"><i class="fas fa-home"></i></a>
+        <a href="/search" class="dock-item"><i class="fas fa-search"></i></a>
+        <a href="/gallery" class="dock-item"><i class="fas fa-images"></i></a>
+        <a href="/add-post" class="dock-item"><i class="fas fa-plus"></i></a>
+        <a href="/top" class="dock-item"><i class="fas fa-trophy"></i></a>
+        <a href="/profile" class="dock-item active"><i class="fas fa-user"></i></a>
     </div>
 </body>
 </html> 

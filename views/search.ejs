@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - Glass UI</title>
+    <title>Search - Glass UI</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -17,9 +17,9 @@
             align-items: center;
             padding: 2rem;
         }
-        .gallery-container {
+        .search-container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 600px;
             margin: 2rem auto;
             padding: 2rem;
             background: rgba(255,255,255,0.1);
@@ -28,58 +28,47 @@
             border: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
-        .gallery-header {
+        .search-header {
             text-align: center;
             margin-bottom: 2rem;
         }
-        .gallery-header h1 {
+        .search-header h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
             background: linear-gradient(45deg, #fff, #a8a8a8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .gallery-header p {
+        .search-header p {
             color: #a8a8a8;
             font-size: 1.1rem;
         }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
-        .gallery-item {
-            background: rgba(255,255,255,0.08);
-            border-radius: 15px;
-            overflow: hidden;
+        .search-form input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .gallery-item:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-        }
-        .gallery-item img {
-            width: 100%;
-            display: block;
-        }
-        .gallery-item .gallery-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 1rem;
+            background: rgba(255,255,255,0.08);
             color: #fff;
+            font-size: 1rem;
         }
-        .gallery-item .gallery-desc {
-            font-size: 0.95rem;
-            color: #ccc;
-            margin: 0 1rem 1rem 1rem;
+        .search-form button {
+            padding: 12px 24px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
         }
-        .gallery-item .gallery-author {
-            font-size: 0.85rem;
-            color: #aaa;
-            margin: 0 1rem 1rem 1rem;
+        .search-form button:hover {
+            background: rgba(255,255,255,0.3);
         }
         .dock {
             position: fixed;
@@ -122,39 +111,26 @@
             box-shadow: 0 0 20px rgba(255,255,255,0.1);
         }
         @media (max-width: 768px) {
-            .gallery-grid { grid-template-columns: 1fr; }
             .dock { padding: 8px 16px; gap: 15px; bottom: 10px; }
             .dock-item { width: 40px; height: 40px; font-size: 1.2rem; }
         }
     </style>
 </head>
 <body>
-    <div class="gallery-container">
-        <div class="gallery-header">
-            <h1>Gallery</h1>
-            <p>Explore our visual collection</p>
+    <div class="search-container">
+        <div class="search-header">
+            <h1>Search</h1>
+            <p>Find exactly what you're looking for</p>
         </div>
-        <div class="gallery-grid">
-            <% if (posts && posts.length > 0) { %>
-                <% posts.forEach(function(post) { %>
-                    <div class="gallery-item">
-                        <a href="/post/<%= post._id %>" style="display:block;text-decoration:none;color:inherit;">
-                            <img src="<%= post.image %>" alt="<%= post.title %>">
-                            <div class="gallery-title"><%= post.title %></div>
-                            <div class="gallery-desc"><%= post.description %></div>
-                            <div class="gallery-author">by <%= post.author?.username || 'Unknown' %></div>
-                        </a>
-                    </div>
-                <% }); %>
-            <% } else { %>
-                <div style="color:#aaa;text-align:center;width:100%;grid-column:1/-1;">No posts yet.</div>
-            <% } %>
-        </div>
+        <form class="search-form">
+            <input type="text" placeholder="Type to search..." />
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </form>
     </div>
     <div class="dock">
         <a href="/" class="dock-item"><i class="fas fa-home"></i></a>
-        <a href="/search" class="dock-item"><i class="fas fa-search"></i></a>
-        <a href="/gallery" class="dock-item active"><i class="fas fa-images"></i></a>
+        <a href="/search" class="dock-item active"><i class="fas fa-search"></i></a>
+        <a href="/gallery" class="dock-item"><i class="fas fa-images"></i></a>
         <a href="/add-post" class="dock-item"><i class="fas fa-plus"></i></a>
         <a href="/top" class="dock-item"><i class="fas fa-trophy"></i></a>
         <a href="/profile" class="dock-item"><i class="fas fa-user"></i></a>
