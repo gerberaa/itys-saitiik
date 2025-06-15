@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Creators - Glass UI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1a1a1a, #2d2d2d);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .top-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .top-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #a8a8a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .top-header p {
+            color: #a8a8a8;
+            font-size: 1.1rem;
+        }
+
+        .creators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .creator-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .creator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .creator-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .creator-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .creator-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .creator-info p {
+            color: #a8a8a8;
+            font-size: 0.9rem;
+        }
+
+        .creator-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #a8a8a8;
+        }
+
+        .dock {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 15px 25px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 
+                0 0 20px rgba(0, 0, 0, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dock-item {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .dock-item:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .dock-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .dock-item::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .dock-item:hover::after {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .creators-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dock {
+                padding: 8px 16px;
+                gap: 15px;
+                bottom: 10px;
+            }
+
+            .dock-item {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-container">
+        <div class="top-header">
+            <h1>Top Creators</h1>
+            <p>Discover the most influential creators in our community</p>
+        </div>
+
+        <div class="creators-grid">
+            <!-- Example creator cards - these would be populated dynamically -->
+            <div class="creator-card">
+                <div class="creator-header">
+                    <img src="https://via.placeholder.com/60" alt="Creator Avatar" class="creator-avatar">
+                    <div class="creator-info">
+                        <h3>John Doe</h3>
+                        <p>Digital Artist</p>
+                    </div>
+                </div>
+                <div class="creator-stats">
+                    <div class="stat">
+                        <div class="stat-value">1.2k</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">45</div>
+                        <div class="stat-label">Works</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="creator-card">
+                <div class="creator-header">
+                    <img src="https://via.placeholder.com/60" alt="Creator Avatar" class="creator-avatar">
+                    <div class="creator-info">
+                        <h3>Jane Smith</h3>
+                        <p>Photographer</p>
+                    </div>
+                </div>
+                <div class="creator-stats">
+                    <div class="stat">
+                        <div class="stat-value">2.5k</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">78</div>
+                        <div class="stat-label">Works</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">99%</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="creator-card">
+                <div class="creator-header">
+                    <img src="https://via.placeholder.com/60" alt="Creator Avatar" class="creator-avatar">
+                    <div class="creator-info">
+                        <h3>Mike Johnson</h3>
+                        <p>3D Artist</p>
+                    </div>
+                </div>
+                <div class="creator-stats">
+                    <div class="stat">
+                        <div class="stat-value">3.1k</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">112</div>
+                        <div class="stat-label">Works</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">97%</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dock">
+        <a href="/" class="dock-item"><i class="fas fa-home"></i></a>
+        <a href="/search" class="dock-item"><i class="fas fa-search"></i></a>
+        <a href="/gallery" class="dock-item"><i class="fas fa-images"></i></a>
+        <a href="/top" class="dock-item active"><i class="fas fa-trophy"></i></a>
+        <a href="/profile" class="dock-item"><i class="fas fa-user"></i></a>
+    </div>
+</body>
+</html> 

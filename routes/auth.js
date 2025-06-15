@@ -8,35 +8,29 @@ const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
     }
+    req.flash('error_msg', 'Please log in to access this page');
     res.redirect('/auth/login');
 };
 
 // Login page
 router.get('/login', (req, res) => {
-    res.render('auth/login', { error: req.flash('error') });
+    res.render('auth/login');
 });
-
-// Login process
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/auth/login',
-    failureFlash: true
-}));
 
 // Register page
 router.get('/register', (req, res) => {
-    res.render('auth/register', { error: req.flash('error') });
+    res.render('auth/register');
 });
 
-// Register process
+// Register handle
 router.post('/register', async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
         // Check if user already exists
-        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+        const existingUser = await User.findOne({ email });
         if (existingUser) {
-            req.flash('error', 'User already exists');
+            req.flash('error_msg', 'Email is already registered');
             return res.redirect('/auth/register');
         }
 
@@ -48,24 +42,32 @@ router.post('/register', async (req, res) => {
         });
 
         await user.save();
-
-        // Log in the new user
-        req.login(user, (err) => {
-            if (err) {
-                return next(err);
-            }
-            res.redirect('/');
-        });
-    } catch (error) {
-        req.flash('error', 'Error creating user');
+        req.flash('success_msg', 'You are now registered and can log in');
+        res.redirect('/auth/login');
+    } catch (err) {
+        console.error(err);
+        req.flash('error_msg', 'An error occurred during registration');
         res.redirect('/auth/register');
     }
 });
 
-// Logout
+// Login handle
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/profile',
+        failureRedirect: '/auth/login',
+        failureFlash: true
+    })(req, res, next);
+});
+
+// Logout handle
 router.get('/logout', (req, res) => {
-    req.logout(() => {
-        res.redirect('/');
+    req.logout((err) => {
+        if (err) {
+            return next(err);
+        }
+        req.flash('success_msg', 'You are logged out');
+        res.redirect('/auth/login');
     });
 });
 

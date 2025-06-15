@@ -19,6 +19,7 @@
             align-items: center;
             color: white;
             font-family: Arial, sans-serif;
+            padding: 20px;
         }
 
         .register-container {
@@ -27,18 +28,15 @@
             -webkit-backdrop-filter: blur(20px);
             border-radius: 24px;
             padding: 40px;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
-            box-shadow: 
-                0 0 20px rgba(0, 0, 0, 0.2),
-                inset 0 0 20px rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .register-title {
-            text-align: center;
-            font-size: 28px;
+            font-size: 32px;
             margin-bottom: 30px;
+            text-align: center;
             background: linear-gradient(45deg, #fff, #ccc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -51,32 +49,28 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .form-group input {
             width: 100%;
             padding: 12px;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.1);
             color: white;
             font-size: 16px;
+            transition: all 0.3s ease;
         }
 
         .form-group input:focus {
             outline: none;
-            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .form-group input::placeholder {
             color: rgba(255, 255, 255, 0.5);
-        }
-
-        .error-message {
-            color: #ff6b6b;
-            margin-bottom: 20px;
-            text-align: center;
         }
 
         .submit-btn {
@@ -99,30 +93,58 @@
         .login-link {
             text-align: center;
             margin-top: 20px;
-            color: rgba(255, 255, 255, 0.7);
         }
 
         .login-link a {
-            color: white;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            font-weight: bold;
+            transition: color 0.3s ease;
         }
 
         .login-link a:hover {
-            text-decoration: underline;
+            color: white;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .alert-error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff6b6b;
+        }
+
+        .alert-success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            color: #51cf66;
         }
     </style>
 </head>
 <body>
     <div class="register-container">
         <h1 class="register-title">Register</h1>
-        <% if (error && error.length > 0) { %>
-            <div class="error-message"><%= error %></div>
+        
+        <% if (error_msg && error_msg.length > 0) { %>
+            <div class="alert alert-error">
+                <%= error_msg %>
+            </div>
         <% } %>
+
+        <% if (success_msg && success_msg.length > 0) { %>
+            <div class="alert alert-success">
+                <%= success_msg %>
+            </div>
+        <% } %>
+
         <form action="/auth/register" method="POST">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Choose a username" required>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
@@ -130,12 +152,12 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Choose a password" required>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
             <button type="submit" class="submit-btn">Register</button>
         </form>
         <div class="login-link">
-            Already have an account? <a href="/auth/login">Login</a>
+            <p>Already have an account? <a href="/auth/login">Login</a></p>
         </div>
     </div>
 </body>
