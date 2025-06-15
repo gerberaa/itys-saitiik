@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Criteria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #1a1a1a, #000000);
+            min-height: 100vh;
+            padding: 50px 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .top-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .top-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .top-item:hover {
+            transform: translateX(10px);
+        }
+
+        .rank {
+            font-size: 24px;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.8);
+            min-width: 40px;
+        }
+
+        .content {
+            flex-grow: 1;
+        }
+
+        .title {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .dock {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 15px 25px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 
+                0 0 20px rgba(0, 0, 0, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dock-item {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dock-item:hover {
+            transform: scale(1.2) translateY(-10px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 10px 20px rgba(0, 0, 0, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .dock-item i {
+            font-size: 26px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="top-container">
+        <div class="top-item">
+            <div class="rank">1</div>
+            <div class="content">
+                <div class="title">Top Item 1</div>
+                <div class="description">Description of the first top item</div>
+            </div>
+        </div>
+        <div class="top-item">
+            <div class="rank">2</div>
+            <div class="content">
+                <div class="title">Top Item 2</div>
+                <div class="description">Description of the second top item</div>
+            </div>
+        </div>
+        <div class="top-item">
+            <div class="rank">3</div>
+            <div class="content">
+                <div class="title">Top Item 3</div>
+                <div class="description">Description of the third top item</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dock">
+        <a href="index.html" class="dock-item">
+            <i class="fas fa-home"></i>
+        </a>
+        <a href="search.html" class="dock-item">
+            <i class="fas fa-search"></i>
+        </a>
+        <a href="gallery.html" class="dock-item">
+            <i class="fas fa-images"></i>
+        </a>
+        <a href="top.html" class="dock-item">
+            <i class="fas fa-trophy"></i>
+        </a>
+        <a href="profile.html" class="dock-item">
+            <i class="fas fa-user"></i>
+        </a>
+    </div>
+</body>
+</html> 
