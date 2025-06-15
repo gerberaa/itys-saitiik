@@ -62,6 +62,7 @@
 <body>
     <div class="edit-container">
         <h1>Edit Post</h1>
+        <img src="<%= post.image %>" alt="<%= post.title %>" class="post-image" style="width:100%;border-radius:10px;margin-bottom:1rem;">
         <form action="/post/<%= post._id %>/edit" method="POST">
             <div class="form-group">
                 <label for="title">Title</label>
